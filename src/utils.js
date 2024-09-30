@@ -53,7 +53,7 @@ function github(version, type = 'npm') {
     version = 'v' + version;
     url = 'https://github.com/YMFE/yapi/archive/' + version + '.zip'
   }else if(type === 'npm'){
-    url = `http://registry.npm.taobao.org/yapi-vendor/download/yapi-vendor-${version}.tgz`
+    url = `http://registry.npmmirror.com/yapi-vendor/download/yapi-vendor-${version}.tgz`
   }else {
     version = 'v' + version;
     url = 'http://yapi.demo.qunar.com/publicapi/archive/' + version;
@@ -66,7 +66,7 @@ module.exports ={
   },
 
   getVersions: async function(){
-    let info = await axios.get('http://registry.npm.taobao.org/yapi-vendor');
+    let info = await axios.get('http://registry.npmmirror.com/yapi-vendor');
     let versions = Object.keys(info.data.versions).filter(item => (item.indexOf('beta') === -1));
     return [].concat(versions, oldVersion())
   },
