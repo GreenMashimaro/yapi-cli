@@ -90,6 +90,35 @@ function handleServerInstall(){
   })
 }
 
+// 修复 node-sass 安装失败问题
+function modifyPkgJson(baseUrl) {
+  const fs = require('fs');
+  const path = require('path');
+
+  // 读取 package.json 文件
+  const packageJsonPath = path.join(baseUrl, 'package.json');
+  let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+
+  // 删除 node-sass 依赖
+  if (packageJson.dependencies && packageJson.dependencies['node-sass']) {
+      delete packageJson.dependencies['node-sass'];
+  }
+  if (packageJson.devDependencies && packageJson.devDependencies['node-sass']) {
+      delete packageJson.devDependencies['node-sass'];
+  }
+
+  // 添加 resolutions 字段
+  packageJson.resolutions = {
+      "**/**/fsevents": "^1.2.9"
+  };
+
+  // 将修改后的内容写回 package.json 文件
+  const newPkgJsonStr = JSON.stringify(packageJson, null, 2)
+  fs.writeFileSync(packageJsonPath, newPkgJsonStr);
+
+  console.log('package.json update:' + newPkgJsonStr);
+}
+
 async function run(argv){
   root = argv.dir;
   let configFilepath = path.resolve(root, 'config.json');
@@ -128,6 +157,9 @@ async function run(argv){
     await wget(yapiPath, v);  
     utils.log('部署文件完成，正在安装依赖库...')
     shell.cd(yapiPath);
+
+    modifyPkgJson(yapiPath);
+
     await handleNpmInstall();
     utils.log('依赖库安装完成，正在初始化数据库mongodb...')
     await handleServerInstall();
