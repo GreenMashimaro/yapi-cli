@@ -29,11 +29,6 @@ function init(config) {
 
     }
   }
-  if(config.company){
-    try{
-      axios.post('http://yapi.demo.qunar.com/publicapi/statis', {company: config.company}).then(res=>{});
-    }catch(e){}
-  }
   if(fileExist(path.resolve(root, 'init.lock'))){
     throw new Error('系统已安装，如需重新安装，请清空数据库和删除init.lock文件');
   }

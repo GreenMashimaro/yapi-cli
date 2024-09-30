@@ -109,11 +109,6 @@ function modifyPkgJson(baseUrl) {
 
   packageJson.devDependencies['sass'] = '^1.79.4';
 
-  // 添加 resolutions 字段
-  packageJson.resolutions = {
-      "**/**/fsevents": "^1.2.9"
-  };
-
   // 将修改后的内容写回 package.json 文件
   const newPkgJsonStr = JSON.stringify(packageJson, null, 2)
   fs.writeFileSync(packageJsonPath, newPkgJsonStr);
