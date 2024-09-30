@@ -107,6 +107,8 @@ function modifyPkgJson(baseUrl) {
       delete packageJson.devDependencies['node-sass'];
   }
 
+  packageJson.devDependencies['sass'] = '^1.79.4';
+
   // 添加 resolutions 字段
   packageJson.resolutions = {
       "**/**/fsevents": "^1.2.9"
