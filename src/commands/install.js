@@ -55,7 +55,7 @@ async function verifyConfig(config){
 
 function handleNpmInstall(){
   return new Promise(function(resolve, reject){
-    let child = shell.exec('npm install -q --production --registry https://registry.npmmirror.com', {async: true, silent: true});
+    let child = shell.exec('yarn install -q --production --registry https://registry.npmmirror.com', {async: true, silent: true});
     child.stdout.on('data', (data) => {
       console.log(` ${data}`);
     });

@@ -43,16 +43,16 @@ async function run(argv) {
   }
   utils.log('更新版本为' + v);
   let config = require(configFilepath);
-  let npmInstall = 'npm install --production --registry https://registry.npmmirror.com';
+  let npmInstall = 'yarn install --production --registry https://registry.npmmirror.com';
   if (config.plugins && Array.isArray(config.plugins) && config.plugins.length > 0) {
     hasPlugin = true;
-    npmInstall = 'npm install --registry https://registry.npmmirror.com';
+    npmInstall = 'yarn install --registry https://registry.npmmirror.com';
   }
 
   let yapiPath = path.resolve(root, 'vendors');
   utils.log('开始下载平台文件压缩包...')
   await wget(yapiPath, v, downloadType);
-  utils.log('部署文件完成，正在执行 npm install...')
+  utils.log('部署文件完成，正在执行 yarn install...')
   shell.cd(yapiPath);
 
   shell.exec(npmInstall);
@@ -62,9 +62,9 @@ async function run(argv) {
         return null;
       }
       if (typeof item === 'string') {
-        shell.exec('npm install ' + 'yapi-plugin-' + item)
+        shell.exec('yarn install ' + 'yapi-plugin-' + item)
       } else if (typeof item === 'object') {
-        shell.exec('npm install ' + 'yapi-plugin-' + item.name)
+        shell.exec('yarn install ' + 'yapi-plugin-' + item.name)
       }
     })
     utils.log('执行 ykit pack -m ...');
